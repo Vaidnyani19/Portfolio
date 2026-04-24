@@ -29,7 +29,7 @@ export default function SlideCursor() {
     const [isClicking, setIsClicking] = useState(false);
     const [navigating, setNavigating] = useState(false);
     const [navLabel, setNavLabel] = useState("");
-    const [navDir, setNavDir] = useState<"left" | "right">("left");
+    const [navDir, setNavDir] = useState<"left" | "right">("right");
     const lastNavAt = useRef(0);
 
     const currentIdx = navOrder.indexOf(pathname);
@@ -44,9 +44,11 @@ export default function SlideCursor() {
         const target = dir === "right" ? prevPage : nextPage;
         if (!target) return;
 
+        setNavDir(dir === "right" ? "left" : "right"); // If going right (Prev), slide from left. If going left (Next), slide from right.
         setNavigating(true);
         router.push(target);
     }, [nextPage, prevPage, router]);
+
 
     // Reset overlay once navigation completes
     useEffect(() => {
@@ -180,17 +182,6 @@ export default function SlideCursor() {
                 )}
             </AnimatePresence>
 
-            <AnimatePresence>
-                {navigating && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0, transition: { duration: 0 } }}
-                        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                        className="fixed inset-0 bg-primary/10 backdrop-blur-sm z-[9990] pointer-events-none"
-                    />
-                )}
-            </AnimatePresence>
 
             {/* Side edge glow hints */}
             <AnimatePresence>
@@ -210,6 +201,24 @@ export default function SlideCursor() {
                         exit={{ opacity: 0 }}
                         className="fixed right-0 top-0 h-full w-16 pointer-events-none z-[9980]"
                         style={{ background: "linear-gradient(to left, rgba(0,246,255,0.06), transparent)" }}
+                    />
+                )}
+            </AnimatePresence>
+
+            {/* Directional Slide Overlay */}
+            <AnimatePresence>
+                {navigating && (
+                    <motion.div
+                        initial={{ x: navDir === "right" ? "100%" : "-100%" }}
+                        animate={{ x: 0 }}
+                        exit={{ x: navDir === "right" ? "-100%" : "100%", transition: { duration: 0.3 } }}
+                        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                        className="fixed inset-0 bg-primary/20 backdrop-blur-[2px] z-[9990] pointer-events-none border-x border-primary/30"
+                        style={{
+                            boxShadow: navDir === "right"
+                                ? "-20px 0 50px rgba(0,246,255,0.2)"
+                                : "20px 0 50px rgba(0,246,255,0.2)"
+                        }}
                     />
                 )}
             </AnimatePresence>

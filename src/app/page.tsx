@@ -1,12 +1,53 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
+
+function FloatingCode() {
+  const codeSnippets = ["{ }", "[]", "=>", "f(x)", "Σ", "01", "μ"];
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+      {codeSnippets.map((snip, i) => (
+        <motion.div
+          key={i}
+          initial={{ 
+            x: Math.random() * 100 + "%", 
+            y: Math.random() * 100 + "%",
+            opacity: 0 
+          }}
+          animate={{ 
+            y: [null, "-20%"],
+            opacity: [0, 1, 0],
+            rotate: [0, 360]
+          }}
+          transition={{ 
+            duration: Math.random() * 10 + 10, 
+            repeat: Infinity, 
+            ease: "linear",
+            delay: Math.random() * 5
+          }}
+          className="absolute text-primary font-mono text-[10px]"
+        >
+          {snip}
+        </motion.div>
+      ))}
+    </div>
+  );
+}
 
 export default function HomePage() {
   const [terminalText, setTerminalText] = useState("");
   const fullText = "> model.evaluate(test_data)\nAccuracy: 0.9842\nLoss: 0.0412\n> deploy --target=production\nBuilding image...\nPushing to registry...\nDeployment successful.";
+
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   useEffect(() => {
     let i = 0;
@@ -15,29 +56,27 @@ export default function HomePage() {
       i++;
       if (i > fullText.length) clearInterval(timer);
     }, 30);
-
-    return () => {
-      clearInterval(timer);
-    };
+    return () => clearInterval(timer);
   }, []);
 
-  const fadeIn = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
-  };
-
-  const staggerContainer = {
-    animate: { transition: { staggerChildren: 0.1 } }
-  };
-
   return (
-    <div className="bg-[#f5f8f8] dark:bg-[#0A0A0F] font-[family-name:var(--font-display)] text-slate-900 dark:text-slate-100 selection:bg-primary selection:text-[#0A0A0F] overflow-hidden">
-      <div className="relative min-h-screen flex flex-col dot-matrix overflow-x-hidden">
-        {/* Background Scanline */}
-        <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
-          <div className="w-full h-[2px] bg-primary/5 absolute top-0 left-0 animate-scan opacity-20"></div>
-        </div>
+    <div ref={containerRef} className="bg-[#f5f8f8] dark:bg-[#050D0E] font-[family-name:var(--font-display)] text-slate-900 dark:text-slate-100 selection:bg-primary selection:text-[#0A0A0F] overflow-hidden min-h-screen">
+      <div className="relative min-h-screen flex flex-col overflow-x-hidden">
+        
+        {/* Cinematic Background Layer */}
+        <motion.div 
+          style={{ y: backgroundY }}
+          className="absolute inset-0 z-0 pointer-events-none opacity-40"
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(0,246,255,0.05),_transparent_70%)]"></div>
+          <div className="absolute inset-0" style={{ 
+            backgroundImage: 'linear-gradient(rgba(0,246,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,246,255,0.03) 1px, transparent 1px)',
+            backgroundSize: '60px 60px',
+            maskImage: 'radial-gradient(ellipse at 50% 50%, black, transparent 80%)'
+          }}></div>
+        </motion.div>
+
+        <FloatingCode />
 
         {/* Decoration Elements */}
         <motion.div 
@@ -53,90 +92,116 @@ export default function HomePage() {
           className="absolute bottom-10 right-10 w-32 h-32 border-b border-r border-primary/30 pointer-events-none"
         ></motion.div>
 
-        {/* Main Hero Section */}
+        {/* Hero Section */}
         <main className="flex-grow flex flex-col justify-center items-center px-6 relative z-20">
           <motion.div 
-            variants={staggerContainer}
-            initial="initial"
-            animate="animate"
-            className="max-w-4xl w-full text-center space-y-8 py-20"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="max-w-5xl w-full text-center space-y-10 py-20"
           >
-            <motion.div variants={fadeIn} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-4">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/5 border border-primary/10 backdrop-blur-sm"
+            >
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
               </span>
-              <span className="font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-widest text-primary">Available for new deployment</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary/80">System.Status: Synchronized</span>
             </motion.div>
 
-            <div className="space-y-4">
-              <motion.p variants={fadeIn} className="font-[family-name:var(--font-mono)] text-primary text-sm tracking-[0.3em] uppercase opacity-80">Data Science Engineer | AI Engineer</motion.p>
-              <motion.h1 variants={fadeIn} className="text-5xl md:text-7xl font-bold tracking-tighter leading-none">
-                I turn raw data into <span className="text-primary underline decoration-primary/30 underline-offset-8">decisions.</span>
-              </motion.h1>
-              <motion.p variants={fadeIn} className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto font-light italic">
-                &quot;Building intelligence, one model at a time.&quot;
+            <div className="space-y-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.2 }}
+                style={{ y: textY }}
+              >
+                <p className="font-mono text-primary text-xs md:text-sm tracking-[0.4em] uppercase opacity-60 mb-4">Engineering Intelligent Solutions</p>
+                <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-[0.9] text-white">
+                  Design <span className="text-primary italic">Better</span><br/>
+                  <span className="text-slate-500">Analyze</span> Faster.
+                </h1>
+              </motion.div>
+              
+              <motion.p 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 0.6 }}
+                className="text-xl md:text-2xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed"
+              >
+                I am <span className="text-white font-medium">Vaidnyani Thakare</span>, a Data Science Engineer bridging the gap between <span className="text-primary">Chemical Engineering</span> and <span className="text-primary">Artificial Intelligence</span>.
               </motion.p>
             </div>
 
-            <motion.div variants={fadeIn} className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
-              <Link href="/projects" className="group relative px-8 py-4 bg-primary text-[#0A0A0F] font-bold rounded overflow-hidden transition-all inline-block">
-                <span className="relative z-10 flex items-center gap-2">
-                  View Work <span className="material-symbols-outlined text-sm transition-transform group-hover:translate-x-1">arrow_forward</span>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8"
+            >
+              <Link href="/projects" className="group relative px-10 py-5 bg-primary text-[#050D0E] font-bold rounded-2xl overflow-hidden transition-all shadow-[0_10px_30px_rgba(0,246,255,0.15)] hover:shadow-[0_10px_40px_rgba(0,246,255,0.3)]">
+                <span className="relative z-10 flex items-center gap-3 text-lg">
+                  Explore Systems <span className="material-symbols-outlined transition-transform group-hover:translate-x-1">bolt</span>
                 </span>
-                <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
               </Link>
-              <button className="px-8 py-4 border border-primary/40 text-primary hover:bg-primary/10 rounded transition-all font-[family-name:var(--font-mono)] text-sm uppercase tracking-wider">
-                Download Resume
-              </button>
+              <Link href="/about" className="px-10 py-5 border border-white/10 text-white hover:bg-white/5 rounded-2xl transition-all font-bold text-lg">
+                The Journey
+              </Link>
             </motion.div>
           </motion.div>
 
-          {/* Decorative Terminal Window */}
+          {/* Terminal HUD */}
           <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.8, duration: 0.8 }}
-            className="absolute bottom-24 right-10 hidden xl:block w-72 p-4 bg-[#16161E]/80 backdrop-blur border border-white/10 rounded-lg font-[family-name:var(--font-mono)] text-[10px] text-slate-500 shadow-2xl"
+            initial={{ opacity: 0, scale: 0.9, x: 20 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ delay: 1.2, duration: 0.8 }}
+            className="absolute bottom-24 right-10 hidden 2xl:block w-80 p-6 bg-[#0f2223]/80 backdrop-blur-xl border border-primary/20 rounded-2xl font-mono text-[11px] text-slate-500 shadow-3xl"
           >
-            <div className="flex gap-1.5 mb-3">
-              <div className="w-2 h-2 rounded-full bg-red-500/50"></div>
-              <div className="w-2 h-2 rounded-full bg-yellow-500/50"></div>
-              <div className="w-2 h-2 rounded-full bg-green-500/50"></div>
+            <div className="flex justify-between items-center mb-4">
+              <div className="flex gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-red-500/20 border border-red-500/40"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/20 border border-yellow-500/40"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-green-500/20 border border-green-500/40"></div>
+              </div>
+              <span className="text-[9px] uppercase tracking-widest opacity-50">Localhost:3001</span>
             </div>
-            <div className="space-y-1 overflow-hidden">
-               <pre className="whitespace-pre-wrap leading-relaxed text-slate-300">
+            <div className="space-y-1 overflow-hidden h-32">
+               <pre className="whitespace-pre-wrap leading-relaxed text-primary/80">
                 {terminalText}
-                <span className="w-1.5 h-3 inline-block bg-primary ml-0.5 animate-pulse"></span>
+                <span className="w-2 h-4 inline-block bg-primary ml-1 animate-pulse"></span>
                </pre>
             </div>
           </motion.div>
         </main>
 
-        {/* Stats Bar */}
+        {/* Data Stream Stats */}
         <motion.section 
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.8 }}
-          className="w-full bg-[#16161E]/50 border-t border-primary/10 py-12 px-6 relative z-20"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 1 }}
+          className="w-full border-t border-white/5 bg-[#081112]/50 backdrop-blur-md py-16 px-6 relative z-20"
         >
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               {[
-                { num: "3+", label: "Projects", desc: "ML, Deep Learning & Big Data pipelines built end-to-end." },
-                { num: "5+", label: "Certifications", desc: "Python, Cybersecurity, Data Analytics, Entrepreneurship." },
-                { num: "2+", label: "Domains", desc: "Chemical Engineering + Data Science — rare, powerful combo." }
+                { num: "3+", label: "Research Projects", desc: "From Phishing Detection to GAN Music Generation." },
+                { num: "5+", label: "Specializations", desc: "Python, Spark, ML, Big Data & Cybersecurity." },
+                { num: "7.78", label: "CGPA (ChemE)", desc: "Engineering rigor applied to data science." }
               ].map((stat, i) => (
                 <motion.div 
                   key={i}
-                  whileHover={{ y: -5, scale: 1.02 }}
-                  className="flex flex-col items-center md:items-start space-y-2 group p-4 rounded-lg hover:bg-white/5 transition-all duration-300"
+                  whileHover={{ y: -5 }}
+                  className="space-y-3 p-6 rounded-2xl hover:bg-white/5 transition-all"
                 >
-                  <div className="flex items-end gap-2 text-primary">
-                    <span className="text-4xl font-bold tracking-tighter">{stat.num}</span>
-                    <span className="font-[family-name:var(--font-mono)] text-xs text-slate-500 mb-2 uppercase tracking-widest">{stat.label}</span>
+                  <div className="text-4xl font-bold text-white tracking-tighter flex items-center gap-3">
+                    <span className="text-primary">{stat.num}</span>
+                    <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">{stat.label}</span>
                   </div>
-                  <p className="text-sm text-slate-400 border-l border-primary/20 pl-4 group-hover:border-primary transition-colors leading-relaxed">{stat.desc}</p>
+                  <p className="text-sm text-slate-500 leading-relaxed font-light">{stat.desc}</p>
                 </motion.div>
               ))}
             </div>
