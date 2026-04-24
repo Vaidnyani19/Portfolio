@@ -1,0 +1,287 @@
+﻿<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Projects | DS/AI Portfolio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00f6ff",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#0f2223",
+                        "card-bg": "#162e2f",
+                        "border-muted": "#204a4b"
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Navigation -->
+<header class="flex items-center justify-between border-b border-border-muted px-6 md:px-16 lg:px-40 py-4 bg-background-dark/80 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-6">
+<span class="material-symbols-outlined text-3xl">terminal</span>
+</div>
+<h2 class="text-slate-100 text-xl font-bold tracking-tight">DS/AI <span class="text-primary">Portfolio</span></h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-300 hover:text-primary transition-colors text-sm font-medium" href="about.html">About</a>
+<a class="text-primary text-sm font-medium border-b-2 border-primary" href="projects.html">Projects</a>
+<a class="text-slate-300 hover:text-primary transition-colors text-sm font-medium" href="#">Resume</a>
+<a class="text-slate-300 hover:text-primary transition-colors text-sm font-medium" href="contact.html">Contact</a>
+</nav>
+<button class="flex min-w-[100px] items-center justify-center rounded-lg h-10 px-6 bg-primary text-background-dark text-sm font-bold transition-all hover:shadow-[0_0_15px_rgba(0,246,255,0.4)]">
+            Hire Me
+        </button>
+</header>
+<main class="layout-container flex flex-col flex-1 px-6 md:px-16 lg:px-40 py-12">
+<!-- Section Header -->
+<div class="flex flex-col gap-2 mb-8">
+<p class="text-primary font-mono text-sm tracking-widest uppercase">Section 02</p>
+<h1 class="text-4xl font-bold text-slate-100 tracking-tight">PROJECTS</h1>
+<div class="h-1 w-20 bg-primary rounded-full"></div>
+</div>
+<!-- Filter Bar -->
+<div class="flex gap-3 mb-10 overflow-x-auto pb-2 no-scrollbar">
+<button class="flex h-10 shrink-0 items-center justify-center rounded-lg bg-primary text-background-dark px-6 font-semibold text-sm transition-all">
+                All
+            </button>
+<button class="flex h-10 shrink-0 items-center justify-center rounded-lg bg-card-bg border border-border-muted text-slate-300 hover:border-primary hover:text-primary px-6 font-medium text-sm transition-all">
+                ML
+            </button>
+<button class="flex h-10 shrink-0 items-center justify-center rounded-lg bg-card-bg border border-border-muted text-slate-300 hover:border-primary hover:text-primary px-6 font-medium text-sm transition-all">
+                NLP
+            </button>
+<button class="flex h-10 shrink-0 items-center justify-center rounded-lg bg-card-bg border border-border-muted text-slate-300 hover:border-primary hover:text-primary px-6 font-medium text-sm transition-all">
+                Computer Vision
+            </button>
+<button class="flex h-10 shrink-0 items-center justify-center rounded-lg bg-card-bg border border-border-muted text-slate-300 hover:border-primary hover:text-primary px-6 font-medium text-sm transition-all">
+                GenAI
+            </button>
+<button class="flex h-10 shrink-0 items-center justify-center rounded-lg bg-card-bg border border-border-muted text-slate-300 hover:border-primary hover:text-primary px-6 font-medium text-sm transition-all">
+                MLOps
+            </button>
+</div>
+<!-- Card Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Project 1 -->
+<div class="group flex flex-col bg-card-bg border border-border-muted rounded-xl overflow-hidden transition-all duration-300 hover:border-primary hover:shadow-[0_0_20px_rgba(0,246,255,0.15)] hover:-translate-y-1">
+<div class="w-full aspect-video bg-slate-800 relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Abstract visualization of neural network pathways" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAGVWKh7sMz8W6UYoXfyPGxq1f7biYbuvyLE2BVWevr11zPnEg1LEDTPII2Iay1net_gEmrQjEmRo_OcOI__y9tP4pfffV9QlzWsL8cOilprOoQFCrTvyGZDOWrc8AB5lAJjMw2JduF33y-sbjZXFpnUekR6CaueYwsux8OtEx44eDk_UGHpcS4BJKZ2vcCSlKqsSoWgElmoyJDR89QT8DJn-Hyu-0lwmiycovqxemRTYykAxLnE_GdiG-Elp1bUJZXtnAwf_C-yg");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent opacity-60"></div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-3">
+<h3 class="text-xl font-bold text-slate-100 group-hover:text-primary transition-colors">LLM RAG Pipeline</h3>
+<span class="material-symbols-outlined text-primary text-xl">auto_awesome</span>
+</div>
+<p class="text-slate-400 text-sm leading-relaxed mb-4 flex-1">
+                        End-to-end retrieval augmented generation system using Pinecone for high-performance vector search and semantic document retrieval.
+                    </p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">PyTorch</span>
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">LangChain</span>
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">OpenAI</span>
+</div>
+<div class="flex gap-4">
+<a class="flex-1 flex items-center justify-center gap-2 bg-border-muted hover:bg-primary hover:text-background-dark text-slate-100 text-xs font-bold py-2 rounded-lg transition-all uppercase tracking-wider" href="#">
+<span class="material-symbols-outlined text-base">code</span> GitHub
+                        </a>
+<a class="flex-1 flex items-center justify-center gap-2 border border-border-muted hover:border-primary text-slate-300 hover:text-primary text-xs font-bold py-2 rounded-lg transition-all uppercase tracking-wider" href="#">
+<span class="material-symbols-outlined text-base">rocket_launch</span> Demo
+                        </a>
+</div>
+</div>
+</div>
+<!-- Project 2 -->
+<div class="group flex flex-col bg-card-bg border border-border-muted rounded-xl overflow-hidden transition-all duration-300 hover:border-primary hover:shadow-[0_0_20px_rgba(0,246,255,0.15)] hover:-translate-y-1">
+<div class="w-full aspect-video bg-slate-800 relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Computer vision bounding boxes on street scene" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDuGRC_7BcLWktclz4iWdQBQRDoAjUDTXOyBDmoJa6spv9SVAI1eCaYv3rKiAllYdyja3O5xIbITwRPLaTVzYd72dzRO5wFtp4ai2MTX6EhI9kPqK2e5YhOLSR7tlxg4k28Bi82F9HcLZZtn8RLXED1xxDcpdI-1E4ZxcIohFlpRhpqCIBxiPWT9XgtGF-WxXzQ0MJitx07xmOvDSfy_5JZQG4HRrSbOr85pnIqm5_BQAxFRhhgifDbBOy168Q-bb2ZNKyUTy4Dig");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent opacity-60"></div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-3">
+<h3 class="text-xl font-bold text-slate-100 group-hover:text-primary transition-colors">Object Detection System</h3>
+<span class="material-symbols-outlined text-primary text-xl">visibility</span>
+</div>
+<p class="text-slate-400 text-sm leading-relaxed mb-4 flex-1">
+                        Real-time YOLOv8 implementation optimized for industrial safety monitoring and automated hazard identification in factory environments.
+                    </p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">Python</span>
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">OpenCV</span>
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">CUDA</span>
+</div>
+<div class="flex gap-4">
+<a class="flex-1 flex items-center justify-center gap-2 bg-border-muted hover:bg-primary hover:text-background-dark text-slate-100 text-xs font-bold py-2 rounded-lg transition-all uppercase tracking-wider" href="#">
+<span class="material-symbols-outlined text-base">code</span> GitHub
+                        </a>
+<a class="flex-1 flex items-center justify-center gap-2 border border-border-muted hover:border-primary text-slate-300 hover:text-primary text-xs font-bold py-2 rounded-lg transition-all uppercase tracking-wider" href="#">
+<span class="material-symbols-outlined text-base">rocket_launch</span> Demo
+                        </a>
+</div>
+</div>
+</div>
+<!-- Project 3 -->
+<div class="group flex flex-col bg-card-bg border border-border-muted rounded-xl overflow-hidden transition-all duration-300 hover:border-primary hover:shadow-[0_0_20px_rgba(0,246,255,0.15)] hover:-translate-y-1">
+<div class="w-full aspect-video bg-slate-800 relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Digital representation of linguistic data nodes" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDbE_BZTL-k_rtT8hNzzAYnqfGcTuBHuPdU6M75VahtEDwZGcjjIyuGs4zwExEzsbdwy2wQ8cM2A8Y-ShJxRDl3ZMmc8SWL0wEAAN-eKSvHYEHbZk7hEgeT4X5Dn46UHAEHuEnEZNEF4nj0kikQXJ-lLnkW9nZgKbM3jp0QDpELu3PIef8D3Z7m1DO3BpuYa46nM8yHXIiP8u11wa6Kk990_RWNgYVe2s4ixXACe0ps6MowC4tnJg9JkBpW_oySVuV2foMBHju5SQ");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent opacity-60"></div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-3">
+<h3 class="text-xl font-bold text-slate-100 group-hover:text-primary transition-colors">Sentiment Analysis API</h3>
+<span class="material-symbols-outlined text-primary text-xl">forum</span>
+</div>
+<p class="text-slate-400 text-sm leading-relaxed mb-4 flex-1">
+                        BERT-based multi-language classifier deployed as a scalable microservice capable of processing 10k requests per minute.
+                    </p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">Transformers</span>
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">FastAPI</span>
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">Docker</span>
+</div>
+<div class="flex gap-4">
+<a class="flex-1 flex items-center justify-center gap-2 bg-border-muted hover:bg-primary hover:text-background-dark text-slate-100 text-xs font-bold py-2 rounded-lg transition-all uppercase tracking-wider" href="#">
+<span class="material-symbols-outlined text-base">code</span> GitHub
+                        </a>
+<a class="flex-1 flex items-center justify-center gap-2 border border-border-muted hover:border-primary text-slate-300 hover:text-primary text-xs font-bold py-2 rounded-lg transition-all uppercase tracking-wider" href="#">
+<span class="material-symbols-outlined text-base">rocket_launch</span> Demo
+                        </a>
+</div>
+</div>
+</div>
+<!-- Project 4 -->
+<div class="group flex flex-col bg-card-bg border border-border-muted rounded-xl overflow-hidden transition-all duration-300 hover:border-primary hover:shadow-[0_0_20px_rgba(0,246,255,0.15)] hover:-translate-y-1">
+<div class="w-full aspect-video bg-slate-800 relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Financial data charts with predictive lines" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAZqzzcgRkd3knzyzfSkNCzpvQE8bJnFafIny3HrxSz9K_0xqACCiZxkpd8Z2SIILNtU7qmLyOm06RplUgV0vZBKsOzRW2--OZ1cQo51QXEcgKsk-1bCTL7P8ZjE2UqtIAlXLSe1wGMhcAhPGDXU1RaJTi7hGc3omXhiU8bzwd59nwkdO1tebldFXWktt7ZhGvCky-WYOFabptPn2Tm401UyjS47i_dL7NTC3Q2PG5uPKY5qkq_7TploMaopI1wrqj2t2NmF9vkJQ");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent opacity-60"></div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-3">
+<h3 class="text-xl font-bold text-slate-100 group-hover:text-primary transition-colors">Fraud Detection Model</h3>
+<span class="material-symbols-outlined text-primary text-xl">shield</span>
+</div>
+<p class="text-slate-400 text-sm leading-relaxed mb-4 flex-1">
+                        High-precision XGBoost model featuring automated feature engineering on AWS SageMaker for credit card transaction monitoring.
+                    </p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">Scikit-learn</span>
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">AWS</span>
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">SQL</span>
+</div>
+<div class="flex gap-4">
+<a class="flex-1 flex items-center justify-center gap-2 bg-border-muted hover:bg-primary hover:text-background-dark text-slate-100 text-xs font-bold py-2 rounded-lg transition-all uppercase tracking-wider" href="#">
+<span class="material-symbols-outlined text-base">code</span> GitHub
+                        </a>
+<a class="flex-1 flex items-center justify-center gap-2 border border-border-muted hover:border-primary text-slate-300 hover:text-primary text-xs font-bold py-2 rounded-lg transition-all uppercase tracking-wider" href="#">
+<span class="material-symbols-outlined text-base">rocket_launch</span> Demo
+                        </a>
+</div>
+</div>
+</div>
+<!-- Project 5 -->
+<div class="group flex flex-col bg-card-bg border border-border-muted rounded-xl overflow-hidden transition-all duration-300 hover:border-primary hover:shadow-[0_0_20px_rgba(0,246,255,0.15)] hover:-translate-y-1">
+<div class="w-full aspect-video bg-slate-800 relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Futuristic architectural render using AI" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBQW5AahxeTIlU-JRFjsV2fMS_ScLtygA7cPaIa98jweuOQIXT5zVQKH-tyRshrgKYtnqOGdavaKVNPCltLHbX1D5_9miDA7E6CD0UgQJyITtU6YmLWh0sCl16abE0WVe-U0cDZXIolxoCSRm2y7PR3qK6POeBomRKea6PR1eEXyVhW6Kn6rBPIOklL4yKjvp-eQtUpuE4GQnko3an8qJO5K16e7IEuuaW5F-YsiAxwHkA-oqVRXWmE1fy1nZrYLSI1vRr_xSuHyQ");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent opacity-60"></div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-3">
+<h3 class="text-xl font-bold text-slate-100 group-hover:text-primary transition-colors">Stable Diffusion UI</h3>
+<span class="material-symbols-outlined text-primary text-xl">palette</span>
+</div>
+<p class="text-slate-400 text-sm leading-relaxed mb-4 flex-1">
+                        Custom interface for a fine-tuned SDXL model tailored for architectural visualization and rapid concept prototyping.
+                    </p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">Diffusers</span>
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">React</span>
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">Modal</span>
+</div>
+<div class="flex gap-4">
+<a class="flex-1 flex items-center justify-center gap-2 bg-border-muted hover:bg-primary hover:text-background-dark text-slate-100 text-xs font-bold py-2 rounded-lg transition-all uppercase tracking-wider" href="#">
+<span class="material-symbols-outlined text-base">code</span> GitHub
+                        </a>
+<a class="flex-1 flex items-center justify-center gap-2 border border-border-muted hover:border-primary text-slate-300 hover:text-primary text-xs font-bold py-2 rounded-lg transition-all uppercase tracking-wider" href="#">
+<span class="material-symbols-outlined text-base">rocket_launch</span> Demo
+                        </a>
+</div>
+</div>
+</div>
+<!-- Project 6 -->
+<div class="group flex flex-col bg-card-bg border border-border-muted rounded-xl overflow-hidden transition-all duration-300 hover:border-primary hover:shadow-[0_0_20px_rgba(0,246,255,0.15)] hover:-translate-y-1">
+<div class="w-full aspect-video bg-slate-800 relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Server rack blinking lights in dark room" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBIGp6XusPe6LXKflhTiKnmRgO28_ePnpNkcUFgDT6dfJRK8jYd_J630QPHFuLVz4KXmPgI3m3KiME_8hwHqWmpjrvM-cnrSP5yoUKfmzQZwM1jqcxkQi8dmEQ2TjLy033Ee2UttVTH8N7YOWYMVzqrQ-Wr6vRICnfBRW6qLE7-o73PiesQPir9jW7u_uTWNsqs_VnGK3eZghSx7K4dbJH5Z7XR7_wkIzqfd9-kyrCNW-7CIzjepomwFuFiWotiLOZklqJDE6xbVQ");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent opacity-60"></div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-3">
+<h3 class="text-xl font-bold text-slate-100 group-hover:text-primary transition-colors">MLOps Dashboard</h3>
+<span class="material-symbols-outlined text-primary text-xl">settings_input_component</span>
+</div>
+<p class="text-slate-400 text-sm leading-relaxed mb-4 flex-1">
+                        Automated CI/CD pipeline featuring model drift monitoring, data versioning, and blue-green deployment strategies.
+                    </p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">Kubernetes</span>
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">MLflow</span>
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">DVC</span>
+</div>
+<div class="flex gap-4">
+<a class="flex-1 flex items-center justify-center gap-2 bg-border-muted hover:bg-primary hover:text-background-dark text-slate-100 text-xs font-bold py-2 rounded-lg transition-all uppercase tracking-wider" href="#">
+<span class="material-symbols-outlined text-base">code</span> GitHub
+                        </a>
+<a class="flex-1 flex items-center justify-center gap-2 border border-border-muted hover:border-primary text-slate-300 hover:text-primary text-xs font-bold py-2 rounded-lg transition-all uppercase tracking-wider" href="#">
+<span class="material-symbols-outlined text-base">rocket_launch</span> Demo
+                        </a>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Call to Action -->
+<div class="mt-20 py-12 border-t border-border-muted flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="text-center md:text-left">
+<h4 class="text-2xl font-bold text-slate-100 mb-2">Interested in collaborating?</h4>
+<p class="text-slate-400">Let's build the next generation of AI tools together.</p>
+</div>
+<div class="flex gap-4">
+<button class="bg-primary text-background-dark px-8 py-3 rounded-lg font-bold transition-all hover:shadow-[0_0_20px_rgba(0,246,255,0.4)]">
+                    Start a Project
+                </button>
+<button class="bg-transparent border border-border-muted hover:border-primary text-slate-100 px-8 py-3 rounded-lg font-bold transition-all">
+                    View All Code
+                </button>
+</div>
+</div>
+</main>
+<footer class="px-6 md:px-16 lg:px-40 py-8 bg-background-dark text-slate-500 text-xs border-t border-border-muted flex flex-col md:flex-row justify-between items-center gap-4">
+<p>© 2024 DS/AI Portfolio. Built with Tailwind CSS.</p>
+<div class="flex gap-6">
+<a class="hover:text-primary" href="#">LinkedIn</a>
+<a class="hover:text-primary" href="#">Twitter</a>
+<a class="hover:text-primary" href="#">GitHub</a>
+</div>
+</footer>
+</div>
+</body></html>

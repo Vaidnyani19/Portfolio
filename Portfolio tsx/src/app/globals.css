@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  /* Fonts */
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+  --font-sans: var(--font-sans);
+
+  /* Primary */
+  --color-primary: #00f6ff;
+  --color-accent-green: #ccff00;
+  --color-accent: #ccff00;
+
+  /* Backgrounds (page-specific, all available) */
+  --color-background-light: #f5f8f8;
+  --color-background-dark: #0A0A0F;
+  --color-background-dark-2: #081112;
+  --color-background-dark-3: #0f2223;
+  --color-background-dark-4: #070d0d;
+  --color-background-dark-5: #050d0e;
+
+  /* Surfaces & Cards */
+  --color-neutral-dark: #16161E;
+  --color-surface-dark: #0f2223;
+  --color-card-bg: #162e2f;
+
+  /* Borders */
+  --color-border-dark: #1a3638;
+  --color-border-dark-2: #204a4b;
+  --color-border-muted: #204a4b;
+  --color-accent-dark: #204a4b;
+
+  /* Border Radius */
+  --radius: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+}
+
+/* ===== Custom Styles from HTML pages ===== */
+
+/* Home page - dot matrix background */
+.dot-matrix {
+  background-image: radial-gradient(circle, #00f6ff33 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+/* Home page - terminal border */
+.terminal-border {
+  border: 1px solid rgba(0, 246, 255, 0.2);
+}
+
+
+
+/* Home page - scanline */
+.scanline {
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 246, 255, 0.1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+/* Skills page - glow effects */
+.glow-cyan {
+  box-shadow: 0 0 15px rgba(0, 246, 255, 0.15);
+}
+
+.glow-green {
+  box-shadow: 0 0 15px rgba(204, 255, 0, 0.1);
+}
+
+/* Skills & Blog - glass card */
+.glass-card {
+  background: rgba(15, 34, 35, 0.4);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(32, 74, 75, 0.5);
+}
+
+/* About page - custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #081112;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #1a3638;
+  border-radius: 10px;
+}
+
+/* Contact page - pulsing status animation */
+@keyframes pulse-cyan {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+.animate-status {
+  animation: pulse-cyan 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes scan {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(100vh); }
+}
+
+.animate-scan {
+  animation: scan 8s linear infinite;
+}
+
+@keyframes flicker {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% { opacity: 1; }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% { opacity: 0.4; }
+}
+
+.animate-flicker {
+  animation: flicker 4s linear infinite;
+}
+
+/* Blog page - hide scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Global body font */
+body {
+  font-family: "Space Grotesk", var(--font-display), sans-serif;
+}
