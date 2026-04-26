@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Network Globe</title>
+    <style>
+        body { margin: 0; background: #050d12; overflow: hidden; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script>
+        const THEME = {
+            bg: 0x050d12,
+            accent: 0x00e5c8,
+            edgeBase: 0x00e5c8,
+            edgeOpacity: 0.15,
+        };
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.body.appendChild(renderer.domElement);
+
+        camera.position.z = 180;
+
+        const globeGroup = new THREE.Group();
+        scene.add(globeGroup);
+
+        const nodesCount = 75;
+        const radius = 100;
+        const nodes = [];
+        
+        const nodeGeo = new THREE.SphereGeometry(1.2, 12, 12);
+        const nodeMat = new THREE.MeshBasicMaterial({ color: THEME.accent, transparent: true, opacity: 0.8 });
+
+        for (let i = 0; i < nodesCount; i++) {
+            const phi = Math.acos(-1 + (2 * i) / nodesCount);
+            const theta = Math.sqrt(nodesCount * Math.PI) * phi;
+            const pos = new THREE.Vector3(
+                radius * Math.cos(theta) * Math.sin(phi),
+                radius * Math.sin(theta) * Math.sin(phi),
+                radius * Math.cos(phi)
+            );
+            nodes.push(pos);
+            const node = new THREE.Mesh(nodeGeo, nodeMat.clone());
+            node.position.copy(pos);
+            globeGroup.add(node);
+
+            gsap.to(node.scale, {
+                x: 1.5, y: 1.5, z: 1.5,
+                duration: 2 + Math.random() * 2,
+                repeat: -1,
+                yoyo: true,
+                ease: "power1.inOut"
+            });
+        }
+
+        const connections = [];
+        const edgeMat = new THREE.LineBasicMaterial({ color: THEME.accent, transparent: true, opacity: THEME.edgeOpacity });
+
+        for (let i = 0; i < 130; i++) {
+            const a = Math.floor(Math.random() * nodesCount);
+            let b = Math.floor(Math.random() * nodesCount);
+            while(a===b) b = Math.floor(Math.random() * nodesCount);
+            connections.push({a, b});
+            const geo = new THREE.BufferGeometry().setFromPoints([nodes[a], nodes[b]]);
+            globeGroup.add(new THREE.Line(geo, edgeMat));
+        }
+
+        function createSignal() {
+            if (document.visibilityState !== 'visible') return;
+            const conn = connections[Math.floor(Math.random() * connections.length)];
+            const signalGeo = new THREE.SphereGeometry(0.8, 8, 8);
+            const signalMat = new THREE.MeshBasicMaterial({ color: THEME.accent });
+            const signal = new THREE.Mesh(signalGeo, signalMat);
+            globeGroup.add(signal);
+
+            gsap.to(signal.position, {
+                x: nodes[conn.b].x, y: nodes[conn.b].y, z: nodes[conn.b].z,
+                duration: 1 + Math.random() * 1.5,
+                onStart: () => signal.position.copy(nodes[conn.a]),
+                onComplete: () => {
+                    globeGroup.remove(signal);
+                    signalGeo.dispose();
+                    signalMat.dispose();
+                }
+            });
+        }
+        setInterval(createSignal, 400);
+
+        let mX = 0, mY = 0, tX = 0, tY = 0;
+        window.addEventListener('mousemove', e => {
+            mX = (e.clientX - window.innerWidth / 2) / 100;
+            mY = (e.clientY - window.innerHeight / 2) / 100;
+        });
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            if (document.visibilityState === 'visible') {
+                globeGroup.rotation.y += 0.002;
+                tX += (mX - tX) * 0.05;
+                tY += (mY - tY) * 0.05;
+                globeGroup.rotation.x = tY;
+                globeGroup.rotation.z = tX * 0.5;
+                renderer.render(scene, camera);
+            }
+        }
+        animate();
+    </script>
+</body>
+</html>

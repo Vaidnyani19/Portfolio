@@ -11,7 +11,7 @@ const navLabels: Record<string, string> = {
     "/about": "About",
     "/projects": "Projects",
     "/experience": "Experience",
-    "/skills": "Tech Stack",
+    "/skills": "Skills",
     "/blog": "Blog",
     "/contact": "Contact",
 };
@@ -29,7 +29,8 @@ export default function SlideCursor() {
     const [isClicking, setIsClicking] = useState(false);
     const [navigating, setNavigating] = useState(false);
     const [navLabel, setNavLabel] = useState("");
-    const [navDir, setNavDir] = useState<"left" | "right">("right");
+    const [navDir, setNavDir] = useState<"left" | "right">("left");
+    const [isNavHover, setIsNavHover] = useState(false);
     const lastNavAt = useRef(0);
 
     const currentIdx = navOrder.indexOf(pathname);
@@ -38,17 +39,15 @@ export default function SlideCursor() {
 
     const navigate = useCallback((dir: "left" | "right") => {
         const now = Date.now();
-        if (now - lastNavAt.current < 800) return;
+        if (now - lastNavAt.current < 400) return;
         lastNavAt.current = now;
 
         const target = dir === "right" ? prevPage : nextPage;
         if (!target) return;
 
-        setNavDir(dir === "right" ? "left" : "right"); // If going right (Prev), slide from left. If going left (Next), slide from right.
         setNavigating(true);
         router.push(target);
     }, [nextPage, prevPage, router]);
-
 
     // Reset overlay once navigation completes
     useEffect(() => {
@@ -61,6 +60,10 @@ export default function SlideCursor() {
         const onMouseMove = (e: MouseEvent) => {
             cursorX.set(e.clientX);
             cursorY.set(e.clientY);
+
+            // Check if hovering over nav
+            const navElement = (e.target as HTMLElement)?.closest(".nav-link") || (e.target as HTMLElement)?.closest("nav");
+            setIsNavHover(!!navElement);
 
             if (e.clientX < EDGE) {
                 setZone("left");
@@ -84,10 +87,19 @@ export default function SlideCursor() {
             else if (e.clientX > window.innerWidth - EDGE && nextPage) navigate("left");
         };
 
-        // Keyboard arrow nav
         const onKeyDown = (e: KeyboardEvent) => {
             if (e.key === "ArrowLeft" && prevPage) navigate("right");
             if (e.key === "ArrowRight" && nextPage) navigate("left");
+        };
+
+        const onWheel = (e: WheelEvent) => {
+            // Only navigate if we are not scrolling vertically or if at top
+            if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+                if (e.deltaX > 20 && nextPage) navigate("left");
+                if (e.deltaX < -20 && prevPage) navigate("right");
+            } else if (window.scrollY === 0 && e.deltaY > 50 && nextPage) {
+                // navigate("left"); // Optional: vertical scroll to next page at top
+            }
         };
 
         window.addEventListener("mousemove", onMouseMove);
@@ -95,6 +107,7 @@ export default function SlideCursor() {
         window.addEventListener("mouseup", onMouseUp);
         window.addEventListener("click", onClick);
         window.addEventListener("keydown", onKeyDown);
+        window.addEventListener("wheel", onWheel);
 
         return () => {
             window.removeEventListener("mousemove", onMouseMove);
@@ -102,16 +115,18 @@ export default function SlideCursor() {
             window.removeEventListener("mouseup", onMouseUp);
             window.removeEventListener("click", onClick);
             window.removeEventListener("keydown", onKeyDown);
+            window.removeEventListener("wheel", onWheel);
         };
     }, [cursorX, cursorY, navigate, nextPage, prevPage]);
 
     const isEdge = zone !== "center";
     const hasTarget = zone === "left" ? !!prevPage : !!nextPage;
+    const showArrows = (isEdge && hasTarget) || isNavHover;
 
     return (
         <>
-            {/* Hide system cursor site-wide when in edge zone */}
-            <style>{`${isEdge && hasTarget ? "* { cursor: none !important; }" : ""}`}</style>
+            {/* Hide system cursor site-wide when in edge zone or nav hover */}
+            <style>{`${(isEdge && hasTarget) || isNavHover ? "* { cursor: none !important; }" : ""}`}</style>
 
             {/* Custom cursor dot */}
             <motion.div
@@ -121,35 +136,47 @@ export default function SlideCursor() {
                 {/* Core ring */}
                 <motion.div
                     animate={{
-                        width: isEdge && hasTarget ? 80 : isClicking ? 14 : 20,
-                        height: isEdge && hasTarget ? 80 : isClicking ? 14 : 20,
-                        backgroundColor: isEdge && hasTarget ? "rgba(0,246,255,0.08)" : "transparent",
-                        borderColor: isEdge && hasTarget ? "rgba(0,246,255,0.9)" : "rgba(0,246,255,0.5)",
-                        borderWidth: isEdge && hasTarget ? 2 : 1.5,
+                        width: showArrows ? 80 : isClicking ? 14 : 20,
+                        height: showArrows ? 80 : isClicking ? 14 : 20,
+                        backgroundColor: showArrows ? "rgba(0,246,255,0.08)" : "transparent",
+                        borderColor: showArrows ? "rgba(0,246,255,0.9)" : "rgba(0,246,255,0.5)",
+                        borderWidth: showArrows ? 2 : 1.5,
                         scale: isClicking ? 0.8 : 1,
                     }}
                     transition={{ type: "spring", stiffness: 300, damping: 25 }}
                     className="rounded-full border flex items-center justify-center"
-                    style={{ boxShadow: isEdge && hasTarget ? "0 0 24px rgba(0,246,255,0.25)" : "none" }}
+                    style={{ boxShadow: showArrows ? "0 0 24px rgba(0,246,255,0.25)" : "none" }}
                 >
                     <AnimatePresence>
-                        {isEdge && hasTarget && (
+                        {showArrows && (
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.5 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.5 }}
-                                className="flex flex-col items-center gap-0.5"
+                                className="flex items-center gap-4"
                             >
-                                <span className="text-primary text-base leading-none">
-                                    {zone === "left" ? "←" : "→"}
-                                </span>
+                                <motion.span 
+                                    animate={{ x: [0, -4, 0] }}
+                                    transition={{ repeat: Infinity, duration: 1.5 }}
+                                    className={`text-primary text-xl leading-none ${isEdge && zone === "right" ? "opacity-20" : "opacity-100"}`}
+                                >
+                                    ←
+                                </motion.span>
+                                {isNavHover && <div className="w-1 h-1 rounded-full bg-primary animate-pulse" />}
+                                <motion.span 
+                                    animate={{ x: [0, 4, 0] }}
+                                    transition={{ repeat: Infinity, duration: 1.5 }}
+                                    className={`text-primary text-xl leading-none ${isEdge && zone === "left" ? "opacity-20" : "opacity-100"}`}
+                                >
+                                    →
+                                </motion.span>
                             </motion.div>
                         )}
                     </AnimatePresence>
                 </motion.div>
 
                 {/* Inner dot */}
-                {!(isEdge && hasTarget) && (
+                {!showArrows && (
                     <motion.div
                         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary"
                         animate={{ width: isClicking ? 6 : 4, height: isClicking ? 6 : 4 }}
@@ -168,7 +195,7 @@ export default function SlideCursor() {
                         transition={{ duration: 0.2 }}
                         className={`fixed top-1/2 -translate-y-1/2 z-[9998] pointer-events-none flex flex-col gap-2 ${zone === "left" ? "left-4" : "right-4"}`}
                     >
-                        <div className="flex items-center gap-2 bg-[#0f2223]/90 backdrop-blur border border-primary/30 px-4 py-3 rounded-xl shadow-2xl">
+                        <div className="flex items-center gap-2 bg-[#0f2223] border border-primary/30 px-4 py-3 rounded-xl shadow-2xl">
                             <span className="text-primary text-lg">{zone === "left" ? "←" : "→"}</span>
                             <div>
                                 <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-500">
@@ -182,46 +209,19 @@ export default function SlideCursor() {
                 )}
             </AnimatePresence>
 
-
-            {/* Side edge glow hints */}
-            <AnimatePresence>
-                {prevPage && zone === "left" && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed left-0 top-0 h-full w-16 pointer-events-none z-[9980]"
-                        style={{ background: "linear-gradient(to right, rgba(0,246,255,0.06), transparent)" }}
-                    />
-                )}
-                {nextPage && zone === "right" && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed right-0 top-0 h-full w-16 pointer-events-none z-[9980]"
-                        style={{ background: "linear-gradient(to left, rgba(0,246,255,0.06), transparent)" }}
-                    />
-                )}
-            </AnimatePresence>
-
-            {/* Directional Slide Overlay */}
             <AnimatePresence>
                 {navigating && (
                     <motion.div
-                        initial={{ x: navDir === "right" ? "100%" : "-100%" }}
-                        animate={{ x: 0 }}
-                        exit={{ x: navDir === "right" ? "-100%" : "100%", transition: { duration: 0.3 } }}
-                        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                        className="fixed inset-0 bg-primary/20 backdrop-blur-[2px] z-[9990] pointer-events-none border-x border-primary/30"
-                        style={{
-                            boxShadow: navDir === "right"
-                                ? "-20px 0 50px rgba(0,246,255,0.2)"
-                                : "20px 0 50px rgba(0,246,255,0.2)"
-                        }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0, transition: { duration: 0 } }}
+                        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                        className="fixed inset-0 bg-primary/5 z-[9990] pointer-events-none"
                     />
                 )}
             </AnimatePresence>
+
+
         </>
     );
 }

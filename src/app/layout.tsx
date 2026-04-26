@@ -3,6 +3,8 @@ import { Space_Grotesk, IBM_Plex_Mono, Noto_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header";
 import SlideCursor from "./components/SlideCursor";
+import GlobalBackground from "./components/GlobalBackground";
+import PageTransition from "./components/PageTransition";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-display",
@@ -44,9 +46,12 @@ export default function RootLayout({
       <body
         className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} ${notoSans.variable} antialiased`}
       >
+        <GlobalBackground />
         <SlideCursor />
         <Header />
-        {children}
+        <PageTransition>
+            {children}
+        </PageTransition>
       </body>
     </html>
   );

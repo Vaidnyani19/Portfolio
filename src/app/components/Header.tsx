@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 
 const navItems = [
     { href: "/", label: "Home", num: "01" },
@@ -16,7 +17,7 @@ export default function Header() {
     const pathname = usePathname();
 
     return (
-        <header className="sticky top-0 z-50 w-full backdrop-blur-md border-b border-[#204a4b]/30 bg-[#050D0E]/90">
+        <header className="sticky top-0 z-50 w-full border-b border-[#204a4b]/30 bg-[#050D0E]">
             <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <span className="material-symbols-outlined text-primary text-2xl">terminal</span>
@@ -29,17 +30,21 @@ export default function Header() {
                     {navItems.map((item) => (
                         <Link
                             key={item.href}
-                            className={`hover:text-primary transition-all duration-300 flex items-center gap-1.5 group ${pathname === item.href ? "text-primary font-bold" : "text-slate-400"
+                            className={`nav-link hover:text-primary transition-all duration-300 flex items-center gap-1.5 group relative py-2 ${pathname === item.href ? "text-primary font-bold" : "text-slate-400"
                                 }`}
                             href={item.href}
                         >
-                            <span className="text-[10px] opacity-70">{item.num}</span>
-                            <span className="relative">
+                            <span className="text-[10px] opacity-70 font-mono tracking-tighter">{item.num}</span>
+                            <span className="relative z-10">
                                 {item.label}
-                                {pathname === item.href && (
-                                    <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
-                                )}
                             </span>
+                            {pathname === item.href && (
+                                <motion.div
+                                    layoutId="activeTab"
+                                    className="absolute inset-0 bg-primary/10 rounded-lg border-b-2 border-primary -z-0"
+                                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                                />
+                            )}
                         </Link>
                     ))}
                     <Link
@@ -48,13 +53,7 @@ export default function Header() {
                     >
                         Contact
                     </Link>
-                    <Link
-                        href="/profile"
-                        title="Edit Portfolio"
-                        className={`ml-2 flex items-center justify-center size-8 rounded-full border transition-all duration-300 ${pathname === "/profile" ? "border-primary bg-primary/20 text-primary" : "border-slate-700 text-slate-400 hover:border-primary/50 hover:text-primary"}`}
-                    >
-                        <span className="material-symbols-outlined text-base">manage_accounts</span>
-                    </Link>
+
                 </nav>
                 <button className="md:hidden text-primary">
                     <span className="material-symbols-outlined">menu</span>
