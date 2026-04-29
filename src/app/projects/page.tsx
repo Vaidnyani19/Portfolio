@@ -125,14 +125,7 @@ export default function ProjectsPage() {
                                             ))}
                                         </div>
 
-                                        <div className="flex gap-4 pt-6 border-t border-[#1a3638]">
-                                            <a className="flex-1 flex items-center justify-center gap-2 bg-transparent border border-[#1a3638] hover:border-primary hover:text-primary text-slate-300 text-[10px] font-bold py-3 rounded uppercase tracking-widest transition-all" href="#">
-                                                <span className="material-symbols-outlined text-sm">code_blocks</span> GitHub
-                                            </a>
-                                            <a className="flex-1 flex items-center justify-center gap-2 bg-[#1a3638] hover:bg-primary hover:text-[#0A0A0F] text-slate-100 text-[10px] font-bold py-3 rounded uppercase tracking-widest transition-all" href="#">
-                                                <span className="material-symbols-outlined text-sm">rocket_launch</span> Demo
-                                            </a>
-                                        </div>
+
                                     </div>
                                 </motion.div>
                             ))}
