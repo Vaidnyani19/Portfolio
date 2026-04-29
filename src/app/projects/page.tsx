@@ -32,38 +32,6 @@ const projects = [
         img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800",
         isFlagship: true
     },
-    { 
-        title: "LLM RAG Pipeline", 
-        icon: "auto_awesome", 
-        category: ["GenAI"],
-        desc: "End-to-end retrieval augmented generation system using Pinecone for high-performance vector search and semantic document retrieval.", 
-        tags: ["PyTorch", "LangChain", "OpenAI"], 
-        img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800"
-    },
-    { 
-        title: "Object Detection System", 
-        icon: "visibility", 
-        category: ["ML"],
-        desc: "Real-time YOLOv8 implementation optimized for industrial safety monitoring and automated hazard identification.", 
-        tags: ["Python", "OpenCV", "CUDA"], 
-        img: "https://images.unsplash.com/photo-1555255707-c07966088b7b?auto=format&fit=crop&q=80&w=800"
-    },
-    { 
-        title: "Sentiment Analysis API", 
-        icon: "forum", 
-        category: ["NLP"],
-        desc: "BERT-based multi-language classifier deployed as a scalable microservice capable of processing 10k requests per minute.", 
-        tags: ["Transformers", "FastAPI", "Docker"], 
-        img: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    },
-    { 
-        title: "Fraud Detection Model", 
-        icon: "lock", 
-        category: ["ML"],
-        desc: "High-precision XGBoost model featuring automated feature engineering on AWS SageMaker for credit card transaction monitoring.", 
-        tags: ["Scikit-learn", "AWS", "SQL"], 
-        img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800"
-    },
 ];
 
 const filters = ["All", "ML", "NLP", "GenAI", "Big Data", "ChemE + AI"];
